@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 프로젝트 옮길 시 이름 수정 필요한 곳
+1. mapper 안에 booknew.BookNewDAO 에서 booknew 폴더 이름  
+2. 데이터베이스 이름 select count(*) from book_new 에서 book_new
+-->
+
+<mapper namespace="book.BookDAO">
+	<!-- 주문수가 가장 많은 상위 3개의 책 조회 -->
+    <select id="getTop3BooksByQuantity" resultType="book.BookDTO">
+    	select * from orders
+    	order by order_quantity desc limit 3
+    </select>    
+    
+</mapper>

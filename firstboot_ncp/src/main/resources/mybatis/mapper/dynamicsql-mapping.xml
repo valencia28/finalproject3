@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- limit 0, 5: 0번 인덱스부터 5개 -->
+<!--foreach: array배열을 돌며 데이터는 num이라고 지칭하겠다.  -->
+<mapper namespace="b">
+	<select id="memberPagingList" resultType="memberdto">
+		select * from c_members order by regtime desc limit 
+		<foreach collection="array" item="num" separator=",">
+			#{num}
+		</foreach>
+	</select>
+	
+<!--select * from c_members where pw=1111 or pw=2222 or pw=3333	랑 
+select * from c_members where pw in (1111, 2222, 3333) 같은 코드  -->
+	<select id="searchMemberList" resultType="memberdto">
+		select * from c_members where pw in
+		<foreach collection="array" item="pw" separator=","  open="(" close=")">
+			#{pw}
+		</foreach>
+	</select>
+	
+	<!-- 컬럼명으로 쓰고 싶으면 ${}, 값으로 쓰고 싶으면 #{} -->
+	<!-- 전달받은 컬럼에서 뒤의 value가 있는지 검색하는것 -->
+	<select id="searchMemberList2" parameterType="java.util.HashMap" resultType="memberdto">
+		select * from c_members where ${colname} like #{colvalue}
+	</select>
+	
+	
+	<select id="searchMemberList3" resultType="memberdto">
+		select * from c_members 
+		<if test="name != null">
+			where name like #{name}
+		</if>
+	</select>
+	
+	
+	<!-- name: 길 인경우, choose 태그같은 경우 첫번째 when 조건이 맞으면 그 다음 when 조건은 무시함-->
+	<select id="searchMemberList4" parameterType="memberdto" resultType="memberdto">
+		select * from c_members where
+		<choose>
+			<when test="name != null">
+				name like concat('%', #{name}, '%')
+			</when>
+			<when test="email != null">
+				email like concat('%', #{email}, '%')
+			</when>
+			<when test="phone != null">
+				phone like concat('%', #{phone}, '%')
+			</when>
+			<when test="id != null">
+				id like concat('%', #{id}, '%')
+			</when>		
+		</choose>
+		
+		order by regtime desc;
+	</select>
+	
+	<!-- sql태그는 단독으로 사용이 아니라 조각 조각을 결합해서 사용함 -->
+	<sql id="membertable">
+		select * from c_members
+	</sql>
+	
+	<sql id="where">
+		where id=#{id}
+	</sql>
+	
+	<select id="totalSQL" parameterType="String" resultType="memberdto">
+		<include refid="membertable" />
+		<include refid="where" />
+	</select>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

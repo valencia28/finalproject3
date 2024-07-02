@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 프로젝트 옮길 시 이름 수정 필요한 곳
+1. mapper 안에 booknew.BookNewDAO 에서 booknew 폴더 이름  
+2. 데이터베이스 이름 select count(*) from book_new 에서 book_new
+-->
+
+<mapper namespace="book.BookDAO">
+	<!--첫 페이지 책 목록 전체 보여주기-->
+    <select id="getAllBooks" resultType="book.BookDTO">
+        select * from books
+    </select>
+    
+    <!--페이징 처리-->
+	<select id="getPagingBookNewList" resultType="bookdto">
+	 select * from books order by book_published_date desc limit
+	 <foreach collection="array" item="a" separator=",">
+	 	#{a}
+	 </foreach> 
+	</select> 
+	
+	<!-- 전체 페이지 총 개수 -->
+	<select id="totalCount" resultType="int">
+		select count(*) from books  
+	</select>
+    
+     <!-- 제목으로 책 조회 -->
+    <select id="getBookByTitle" parameterType="String" resultType="bookdto">
+        select * from books
+        where title = #{title}
+    </select>   
+    
+</mapper>
+

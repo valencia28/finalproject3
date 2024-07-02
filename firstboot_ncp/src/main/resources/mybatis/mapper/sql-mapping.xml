@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- resultType은 자바클래스를 정의한 것 -> 이 클래스로 db 정보가 객체가 리스트형태로 주입됨 -->
+<!-- namespace를 활용해서 a.memberList로 사용 가능 -> mybatis-config.xml에 2개 이상의 mapping이 되어 있을 경우 중복을 피하기 위해 사용 -->
+<mapper namespace="boardmapper.MemberDAO">
+	<select id="memberList" resultType="memberdto">
+		select * from c_members	
+	</select>
+	
+	<!-- {id}는 변수명이 됨-> Main에서 전달해주는 입력 파라미터가 됨 -> 메인에서 아이디를 받아 db에서 찾아와라 -->
+	<!-- parameterType이 String일 경우 생략 가능 -->
+	<select id="oneMember" resultType="memberdto" parameterType="String">
+		select * from c_members where id=#{id}
+	</select>
+	
+	<select id="memberCount" resultType="int">		
+		select count(*) from c_members	
+	</select>
+	
+	<insert id="insertMember">
+		insert into c_members values
+		('mybatis1', '홍홍홍', 1111, '010-9999-8888', 'mybatis@kil.com', now())	
+	</insert>
+	
+	<insert id="insertMemberDTO" parameterType="memberdto">
+		insert into c_members values
+		(#{id}, #{name}, #{pw}, #{phone}, #{email}, now())	
+	</insert>
+	
+	
+	<update id="updateMember" parameterType="memberdto">
+		update c_members set pw=#{pw}, email=#{email} where id=#{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="String">
+		delete from c_members where id=#{memberid}		
+	</delete>
+
+</mapper>
+
+<!-- insert into c_members select* from emp;  이렇게도 사용가능-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
