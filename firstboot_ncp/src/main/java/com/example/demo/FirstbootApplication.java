@@ -5,23 +5,26 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+import spring.mybatis.board.BoardController;
+
+/*1. 내장 tomcat 시작(8080->9090), 
+ * 2. component-scan 자동 동작 설정, 
+ 3. src/main/respources/application.properties
+ //  /WEB-INF/views/*.jsp 경로와 확장자 사용자추가설정
+ 
+ 
+//스프링부트클래스 실행 - run as - spring boot app (선택!!!!) / java application (main) / run on server(mvc, jsp, servlet)
+*/
 @SpringBootApplication //실행
-//@ComponentScan  //<context:component-scan> 역할   //현재패키지 com.example.demo는 이 태그 생략가능 -> 하지만 이 태그가 여려개일경우 기본도 적어줘야함
-//@ComponentScan(basePackages = "upload")    //ComponentScan 복수개 작성 가능
+@ComponentScan  
+@ComponentScan(basePackages = "upload")
 //@ComponentScan(basePackageClasses = BoardController.class)
 
 //@ComponentScan(basePackages = {"upload", "spring.mybatis.board"})
 
-//@ComponentScan(basePackages = "boardmapper")
-//@MapperScan(basePackages = "boardmapper")
-
-//@ComponentScan(basePackages = "websocket")
-
-//@ComponentScan(basePackages = "booknew")
-/* @MapperScan("booknew") */
-
-@ComponentScan(basePackages = "book")
-
+@ComponentScan(basePackages = "boardmapper")
+@MapperScan(basePackages = "boardmapper")
+@ComponentScan(basePackages = "websocket")
 public class FirstbootApplication {
 
 	public static void main(String[] args) {

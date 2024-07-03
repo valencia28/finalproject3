@@ -11,7 +11,9 @@ public class MyPathConfig implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// registry: url-폴더매핑 장소를 저장한 저장소
 		// http://localhost:9090/upload/**
-		registry.addResourceHandler("/upload/**").addResourceLocations("file:///c:/fullstack/upload/");
+		registry.addResourceHandler("/upload/**")
+		//.addResourceLocations("file:///c:/fullstack/upload/");
+		.addResourceLocations(UploadInform.uploadLocation);
 	}
 	
 }

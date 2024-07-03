@@ -19,7 +19,7 @@ public class DownloadController {
 	// c:/fullstack/upload에 있는 파일리스트를 보여주는 메서드
 	@RequestMapping("/filedownloadlist")
 	ModelAndView downloadlist() {
-		File f = new File("c:/fullstack/upload/");
+		File f = new File(UploadInform.uploadPath);
 		String [] filearray = f.list();
 		
 		ModelAndView mv = new ModelAndView();
@@ -35,11 +35,11 @@ public class DownloadController {
 	void downloadresult(String filename, HttpServletResponse response) throws IOException{
 		response.setContentType("application/download");
 		//view 없음
-		response.setContentLength( (int) (new File("c:/fullstack/upload/"+filename).length()) );
+		response.setContentLength( (int) (new File(UploadInform.uploadPath+filename).length()) );
 		response.setHeader("Content-Disposition", "attachment;filename=\"" + filename +  "\"");
 		
 		OutputStream out = response.getOutputStream();
-		FileInputStream fin = new FileInputStream(new File("c:/fullstack/upload/"+filename));
+		FileInputStream fin = new FileInputStream(new File(UploadInform.uploadPath+filename));
 		FileCopyUtils.copy(fin, out);
 		fin.close();
 		out.close();

@@ -22,7 +22,7 @@ public class UploadController {
 	
 	@PostMapping("/fileupload")
 	ModelAndView uploadResult(@ModelAttribute("dto") UploadDTO dto) throws IOException{
-		String savePath = "c:/fullstack/upload/";
+		String savePath = UploadInform.uploadPath;
 		
 		MultipartFile file1 = dto.getFile1();
 		String newFileName1 = null;
